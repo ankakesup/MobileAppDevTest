@@ -1,8 +1,8 @@
 package jp.ac.meijou.android.s241205032;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+//import android.text.Editable;
+//import android.text.TextWatcher;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,34 +31,52 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // データストア
         prefDataStore = PrefDataStore.getInstance(this);
+        // 保存
         binding.saveButton.setOnClickListener(view -> {
             var text = binding.editTextText.getText().toString();
             prefDataStore.setString("name", text);
         });
+        // データストアここまで
 
-        binding.text.setText(R.string.text); // テキストの変更
+//        binding.text.setText(R.string.text); // テキストの変更
+
+        // changeボタンのクリックリスナー
         binding.button.setOnClickListener(view -> {
             var text = binding.editTextText.getText().toString();
             binding.text.setText(text); // テキストの変更
-        });// ボタンのクリックリスナー
-
-        binding.editTextText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // 何もしない
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // 何もしない
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                binding.text.setText(editable.toString()); // テキストの変更
-            }
         });
 
+        // データストアから読み込むボタン
+        binding.loadButton.setOnClickListener(view -> {
+            prefDataStore.getString("name").ifPresent(name -> binding.text.setText(name));
+        });
+
+//        binding.editTextText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                // 何もしない
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                // 何もしない
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                binding.text.setText(editable.toString()); // テキストの変更
+//            }
+//        });
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 画面呼び出し時にデータストアから読み込む
+        prefDataStore.getString("name").ifPresent(name -> binding.text.setText(name));
+    }
+
 }
