@@ -15,6 +15,7 @@ import jp.ac.meijou.android.s241205032.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding; // ViewBindingのためのフィールド
+    private PrefDataStore prefDataStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.text.setText(R.string.text); // テキストの変更
+        prefDataStore = PrefDataStore.getInstance(this);
+        binding.saveButton.setOnClickListener(view -> {
+            var text = binding.editTextText.getText().toString();
+            prefDataStore.setString("name", text);
+        });
 
+        binding.text.setText(R.string.text); // テキストの変更
         binding.button.setOnClickListener(view -> {
             var text = binding.editTextText.getText().toString();
             binding.text.setText(text); // テキストの変更
@@ -53,5 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 binding.text.setText(editable.toString()); // テキストの変更
             }
         });
+
     }
 }

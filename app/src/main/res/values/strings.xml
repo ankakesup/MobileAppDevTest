@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">モバイルアプリ開発A</string>
     <string name="text">モバイルアプリを開発</string>
-    <string name="button">submit</string>
+    <string name="change_button">change</string>
+    <string name="save_button">Save</string>
 
 </resources>
